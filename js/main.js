@@ -194,7 +194,7 @@ navigator.serviceWorker.addEventListener('message', function (message) {
     if (message.data == 'sync-message') {
         chatMessages.dbOffline.getAll().then(res => {
             res.forEach(result => {
-                chatMessages.dbOnline.addMessage({ email: result.email, username: result }, result.message).then(() => {
+                chatMessages.dbOnline.addMessage({ email: result.email, username: result.username }, result.message).then(() => {
                     chatMessages.dbOffline.delete(result)
                 })
 

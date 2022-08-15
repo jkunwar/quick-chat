@@ -87,9 +87,9 @@ self.addEventListener('sync', event => {
 function addMessage() {
     console.log('add message to firebase')
     // // Fire a post message to sync the messages from local storage to firebase
-    // self.clients.matchAll().then(clients => {
-    //     clients.forEach(client => {
-    //         client.postMessage('sync-message')
-    //     })
-    // })
+    self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+            client.postMessage('sync-message')
+        })
+    })
 }
