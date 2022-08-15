@@ -1,15 +1,359 @@
-body {
-    background-color: #f3f2f3;
-    margin: 0;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* {
     padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
 }
 
-header {
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #EEEEEE;
+}
+
+nav {
+    background: #1161ed;
+    height: 80px;
+    width: 100%;
+}
+
+nav .nav2 {
+    background-color: #E4EBF2;
+}
+
+label.logo {
+    color: white;
+    font-size: 35px;
+    line-height: 80px;
+    padding: 0 100px;
+    font-weight: bold;
+}
+
+#login-form,
+#register-form,
+#chat {
+    display: none;
+}
+
+.invalid {
+    color: red;
+}
+
+@media (max-width: 952px) {
+    body {
+        background-color: #EEEEEE;
+
+    }
+
+    nav {
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+
+    label.logo {
+        font-size: 30px;
+        /* padding-left: 50px; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login {
+        /* position: relative; */
+        /* height: 200px; */
+        width: 200px;
+        margin: auto;
+        /* padding: 60px 60px; */
+        background-color: white;
+        background-size: cover;
+        margin-top: 40px;
+    }
+}
+
+
+
+/* Form */
+
+.login {
+    max-height: 100vh;
+    overflow-Y: auto;
+    margin: 40px auto;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.login .container {
+    width: 505px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.login .container h1 {
+    margin-top: 30px;
+    font-size: 35px;
+    font-weight: bolder;
     text-align: center;
 }
 
-#messages {
-    padding-bottom: 30%;
+.login .container .auth-form {
+    margin-top: 50px;
+}
+
+.login .container .auth-form form {
+    display: grid;
+}
+
+.login .container .auth-form form input {
+    font-size: 16px;
+    font-weight: normal;
+    background: rgba(57, 57, 57, 0.07);
+    margin: 12.5px 0;
+    height: 58px;
+    border: none;
+    padding: 0 30px;
+    border-radius: 10px;
+}
+
+.login .container .auth-form form button[type=button] {
+    background-color: #1161ed;
+    border: none;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 58px;
+    text-transform: uppercase;
+    color: white;
+    border-radius: 10px;
+    position: relative;
+    z-index: 2;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.login .container .auth-form form button[type=button]:hover::after {
+    opacity: 1;
+    background-color: black;
+}
+
+.login .container .auth-form form button[type=button]::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-radius: 10px;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    -webkit-transition: 0.3s ease-in-out;
+    -o-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+    right: 0;
+    bottom: 0;
+}
+
+.login .container .remember-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.login .container .remember-form input[type=checkbox] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.login .container .remember-form span {
+    font-size: 18px;
+    font-weight: normal;
+    top: 10px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.login .container .forget-pass {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.login .container .forget-pass a {
+    font-size: 16px;
+    position: relative;
+    font-weight: normal;
+    color: #918F8F;
+}
+
+/* F */
+
+.login .container .forget-pass a:hover::after {
+    opacity: 1;
+}
+
+/* -------------------------- */
+
+.login .container .register {
+
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login .container .register a {
+    font-size: 16px;
+    position: relative;
+    font-weight: normal;
+    color: #918F8F;
+}
+
+.login .container .register a::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    border-radius: 100px;
+    background-color: #1161ed;
+    bottom: -4px;
+    left: 0;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    opacity: 0;
+    right: 0;
+}
+
+.login .container .register a:hover::after {
+    opacity: 1;
+}
+
+/* Display 12", iPad PRO Portrait, iPad landscape */
+@media only screen and (max-width: 1024px) {
+
+    .login {
+        width: auto;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+
+    }
+
+    .login .container {
+        width: 80%;
+        border-radius: 10px;
+    }
+
+    .login .container h1 {
+        font-size: 30px;
+        margin-top: 50px;
+    }
+
+    .login .container .auth-form {
+        margin-top: 50px;
+    }
+
+    .login .container .auth-form form input {
+        height: 45px;
+    }
+
+    .login .container .auth-form form button[type=button] {
+        height: 45px;
+        margin-top: 50px;
+    }
+
+    .login .container .auth-form form button[type=button]:hover {
+        height: 45px;
+        margin-top: 50px;
+    }
+
+    .login .container .auth-form .remember-form {
+        position: relative;
+        margin-top: -14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login .container .remember-form input[type=checkbox] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login .container .auth-form .remember-form span {
+        font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .forget-pass {
+        text-align: center;
+    }
+
+    .forget-pass a {
+        font-size: 16px;
+        color: #918F8F;
+    }
+
+    .forget-pass a::after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        border-radius: 100px;
+        background-color: #1161ed;
+        bottom: -4px;
+        left: 0;
+        -webkit-transition: 0.3s;
+        -o-transition: 0.3s;
+        transition: 0.3s;
+        opacity: 0;
+        right: 0;
+    }
+
+    .forget-pass a:hover::after {
+        opacity: 1;
+    }
+
+    /* ---------------- */
+    .register {
+        left: 0;
+        margin: 0 !important;
+        text-align: center;
+    }
+
+    .register a {
+        font-size: 16px;
+        position: relative;
+        font-weight: normal;
+        color: #918F8F;
+    }
+
+    .register a::after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        border-radius: 100px;
+        background-color: #1161ed;
+        bottom: -4px;
+        left: 0;
+        -webkit-transition: 0.3s;
+        -o-transition: 0.3s;
+        transition: 0.3s;
+        opacity: 0;
+        right: 0;
+    }
+
+    .register a:hover::after {
+        opacity: 1;
+    }
+
 }
 
 li {
@@ -28,8 +372,28 @@ li span {
     color: #b5b0b9;
 }
 
-#loginRegister {
-    display: none;
+#message-form {
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #b5b0b9;
+}
+
+#message-input {
+    width: 70%;
+    height: 30px;
+}
+
+#message-btn {
+    width: 25%;
+    height: 38px;
+}
+
+#messages {
+    margin-top: 20px;
+    padding-bottom: 30%;
 }
 
 #chat {
@@ -38,36 +402,15 @@ li span {
     margin: auto;
 }
 
-#message-form {
-    text-align: center;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: #b7b5b9;
-}
-
-input {
-    width: 70%;
-    height: 30px;
-}
-
-input.invalid {
-    border-color: red;
-}
-
-button {
-    width: 25%;
-    height: 38px;
-}
-
 .sent {
     text-align: right;
-    background-color: #a79cb3;
+    background-color: #0084FF;
     margin-left: 50%;
+    color: #fff;
 }
 
 .sent span {
     margin-left: 5px;
     color: #6929ca;
+    font-weight: 700;
 }

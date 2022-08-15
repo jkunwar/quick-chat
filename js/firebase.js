@@ -1,7 +1,8 @@
-
-export default class Firebase {
+export default class FirebaseDB {
+    // class FirebaseDB {
 
     constructor() {
+
 
         const firebaseConfig = {
             apiKey: "AIzaSyB-F3xM_DPJYMFP15r2k_321jx6AJ78D8g",
@@ -12,7 +13,6 @@ export default class Firebase {
             messagingSenderId: "402904683754",
             appId: "1:402904683754:web:7843c2f3c1f8a7ad1eb393"
         };
-
         const app = firebase.initializeApp(firebaseConfig);
         this.db = firebase.database();
     }
@@ -22,8 +22,8 @@ export default class Firebase {
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     //fetch username form user table
-                    this.getUsernameByUid(userCredential.user)
-                        .then(res => resolve({ ...res, uid: userCredential.user }))
+                    this.getUsernameByUid(userCredential.user.uid)
+                        .then(res => resolve({ ...res, uid: userCredential.user.uid }))
                         .catch(err => reject(err))
                 })
                 .catch((error) => {
@@ -91,78 +91,52 @@ export default class Firebase {
         })
     }
 
-    getMessages(username, groupName) {
-        const messagesRef = this.db.ref(`final-project/messages/groups/${groupName}`);
-        messagesRef.on("child_added", function (snapshot) {
+    getMessages(user) {
+        const messagesRef = this.db.ref(`final-project/messages`);
+        let newItems = false
+
+        //Load the messages from firebase once
+        messagesRef.once("value", function (snapshot) {
+            newItems = true
             const messages = snapshot.val();
-            const message = `<li class=${username === messages.username ? "sent" : "receive"
+            Object.values(messages).forEach(message => {
+                const messageHTML = `<li class=${user.username === message.username ? "sent" : "receive"
+                    }><span>${message.username}: </span>${message.message}</li>`;
+                // append the message on the page
+                document.getElementById("messages").innerHTML += messageHTML;
+            })
+        });
+
+        //Listen to new messages added to the firebase database
+        messagesRef.on('child_added', function (snapshot) {
+            if (!newItems) { return }
+
+            const messages = snapshot.val();
+            const messageHTML = `<li class=${user.username === messages.username ? "sent" : "receive"
                 }><span>${messages.username}: </span>${messages.message}</li>`;
             // append the message on the page
-            document.getElementById("messages").innerHTML += message;
+            document.getElementById("messages").innerHTML += messageHTML;
 
-            const options = {
-                body: "You have new message",
+            if (user.email != messages.email) {
+                const options = {
+                    body: messages.message
+                }
+                navigator.serviceWorker.ready
+                    .then((registration) => {
+                        registration.showNotification("You have new message", options)
+                    })
             }
-            navigator.serviceWorker.ready
-                .then((registration) => {
-                    registration.showNotification(messages.message, options)
-                })
-        });
+        })
     }
 
-    getAndroidGroupMessages(username) {
-        const messagesRef = this.db.ref("/final-project/messages/");
-        messagesRef.on("child_added", function (snapshot) {
-            const messages = snapshot.val();
-            const message = `<li class=${username === messages.username ? "sent" : "receive"
-                }><span>${messages.username}: </span>${messages.message}</li>`;
-            // append the message on the page
-            document.getElementById("messages").innerHTML += message;
 
-            const options = {
-                body: "You have new message",
-                actions: [
-                    {
-                        action: 'agree',
-                        title: 'Agree'
-                    },
-                    {
-                        action: 'disagree',
-                        title: 'Diagree'
-                    }
-                ]
-            }
-            // console.log(navigator)
-            // new Notification(title, options)
-            navigator.serviceWorker.ready
-                .then((registration) => {
-                    registration.showNotification(messages.message, options)
-                })
-        });
-    }
-
-    getiOSGroupMessages(username, groupName) {
-        const messagesRef = this.db.ref(`final-project/messages/groups/${groupName}`);
-        messagesRef.on("child_added", function (snapshot) {
-            const messages = snapshot.val();
-            const message = `<li class=${username === messages.username ? "sent" : "receive"
-                }><span>${messages.username}: </span>${messages.message}</li>`;
-            // append the message on the page
-            document.getElementById("messages").innerHTML += message;
-
-            navigator.serviceWorker.ready
-                .then((registration) => {
-                    registration.showNotification(messages.message, {})
-                })
-        });
-    }
-
-    sendMessage(username, message, groupName) {
+    addMessage(user, message) {
         const timestamp = Date.now();
         // create db collection and send in the data
-        this.db.ref(`final-project/messages/groups/${groupName}/${timestamp}`).set({
-            username,
-            message,
+        this.db.ref(`final-project/messages/${timestamp}`).set({
+            email: user.email,
+            username: user.username,
+            message: message,
         });
     }
 
